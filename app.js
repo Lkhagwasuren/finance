@@ -23,11 +23,32 @@ var uiController = (function () {
 })();
 // sanhuutei  ajillah controller
 
-var financeController = (function () {})();
+var financeController = (function () {
+  var Income = function (id, decription, value) {
+    this.id = id;
+    this.decription = decription;
+    this.value = value;
+  };
+  var Expense = function (id, decription, value) {
+    this.id = id;
+    this.decription = decription;
+    this.value = value;
+  };
+
+  var data = {
+    allitems: {
+      inc: [],
+      exp: [],
+    },
+    totals: {
+      inc: 0,
+      exp: 0,
+    },
+  };
+})();
 
 //programmiin holbogch controller
 var appController = (function (uiController, financeController) {
-  var DOM = uiController.getDOMstrings();
   var ctrlAddItem = function () {
     //1. oruulah ogogdoliiig delgetsees olj awna
     console.log(uiController.getInput());
@@ -36,12 +57,24 @@ var appController = (function (uiController, financeController) {
     //4. tolowiig tootsoolno
     //5. etsesiin vldegdel tootsoog delgetsend gargana
   };
-  document.querySelector(DOM.addBtn).addEventListener("click", function () {
-    ctrlAddItem();
-  });
-  document.addEventListener("keypress", function (event) {
-    if (event.keyCode === 13 || event.which === 13) {
+  var setupEventListener = function () {
+    var DOM = uiController.getDOMstrings();
+
+    document.querySelector(DOM.addBtn).addEventListener("click", function () {
       ctrlAddItem();
-    }
-  });
+    });
+    document.addEventListener("keypress", function (event) {
+      if (event.keyCode === 13 || event.which === 13) {
+        ctrlAddItem();
+      }
+    });
+  };
+  return {
+    init: function () {
+      console.log("Application ehllee...");
+      setupEventListener();
+    },
+  };
 })(uiController, financeController);
+
+appController.init();
